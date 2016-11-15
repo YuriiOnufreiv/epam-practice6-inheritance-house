@@ -9,37 +9,36 @@ import ua.onufreiv.inheritance.house.Room;
  */
 public class Runner {
     public static void main(String[] args) {
-        HouseBuilder houseBuilder1 = new HouseBuilder("Kyiv", 2);
-        HouseBuilder.House house1 = houseBuilder1.getHouse();
+        // create house in Kyiv
+        HouseBuilder kyivBuilder = new HouseBuilder("Kyiv, Khreschatyk", 2);
+        HouseBuilder.House kyivHouse = kyivBuilder.getHouse();
+        kyivBuilder.addRoom(Room.RoomType.BEDROOM, 2, 25);
+        kyivBuilder.addRoom(Room.RoomType.LIVING_ROOM, 3, 30);
+        kyivBuilder.addRoom(Room.RoomType.KITCHEN, 1, 15);
 
-        HouseBuilder houseBuilder2 = new HouseBuilder("Lviv", 1);
-        HouseBuilder.House house2 = houseBuilder2.getHouse();
+        // create house in Lviv
+        HouseBuilder lvivBuilder = new HouseBuilder("Lviv, prosp. Svobody", 1);
+        HouseBuilder.House lvivHouse = lvivBuilder.getHouse();
+        lvivBuilder.addRoom(Room.RoomType.BEDROOM, 2, 15);
+        lvivBuilder.addRoom(Room.RoomType.KITCHEN, 1, 10);
 
-        houseBuilder1.addRoom(Room.RoomType.BEDROOM, 3, 25);
-        houseBuilder1.addRoom(Room.RoomType.KITCHEN, 1, 15);
-        System.out.println(house1);
-        System.out.println(houseBuilder1.hashCode());
+        // print amount of windows and doors
+        System.out.printf("Kyiv House - doors: %d, windows: %d%n",
+                kyivHouse.getAmountOfDoors(), kyivHouse.getAmountOfWindows());
+        System.out.printf("Lviv House - doors: %d, windows: %d%n",
+                lvivHouse.getAmountOfDoors(), lvivHouse.getAmountOfWindows());
 
-        System.out.println("Windows amount: " + house1.getAmountOfWindows());
-        System.out.println("Doors amount: " + house1.getAmountOfDoors());
+        // test equals() method for houses
+        System.out.println("\nkyivHouse.equals(lvivHouse): " + kyivHouse.equals(lvivHouse));
 
-        KeyGenerator.Key key1 = null;
-        KeyGenerator.Key key2 = null;
-        key2 = house2.lockWithKey();
+        // lock the doors in both houses
+        KeyGenerator.Key kyivKey = kyivHouse.lockWithKey();
+        KeyGenerator.Key lvivKey = lvivHouse.lockWithKey();
+        System.out.println("\nkyivKey: " + kyivKey.toString());
+        System.out.println("lviviKey: " + lvivKey.toString());
 
-        Room room = house1.getRooms().get(0);
-        room.openWindow();
-        room.openWindow();
-
-        key1 = house1.lockWithKey();
-
-
-        System.out.println("Entry door is locked: " + house1.isEntryDoorLocked());
-        house1.unlockWithKey(key2);
-        System.out.println("Entry door is locked: " + house1.isEntryDoorLocked());
-        house1.unlockWithKey(key1);
-        System.out.println("Entry door is locked: " + house1.isEntryDoorLocked());
-
-
+        // open the door with valid/invalid key
+        System.out.println("\nkyivHouse.unlockWithKey(lvivKey) : " + kyivHouse.unlockWithKey(lvivKey));
+        System.out.println("kyivHouse.unlockWithKey(kyivKey) : " + kyivHouse.unlockWithKey(kyivKey));
     }
 }

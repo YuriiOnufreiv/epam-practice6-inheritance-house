@@ -67,8 +67,8 @@ public class HouseBuilder {
                 }
             }
 
-            entryDoor.lock();
-            return KeyGenerator.generateForDoor(entryDoor);
+            entryDoor.lock(this);
+            return KeyGenerator.generateForDoor(this, entryDoor);
         }
 
         /**
@@ -79,7 +79,7 @@ public class HouseBuilder {
          * @return {@code true} if door where successfully unlocked, {@code false} otherwise
          */
         public boolean unlockWithKey(KeyGenerator.Key key) {
-            return (isEntryDoorLocked() && entryDoor.unlock(key));
+            return (isEntryDoorLocked() && entryDoor.unlock(this, key));
         }
 
         /**

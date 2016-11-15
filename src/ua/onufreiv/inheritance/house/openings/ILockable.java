@@ -1,5 +1,6 @@
 package ua.onufreiv.inheritance.house.openings;
 
+import ua.onufreiv.inheritance.house.HouseBuilder;
 import ua.onufreiv.inheritance.house.KeyGenerator;
 
 /**
@@ -10,7 +11,7 @@ import ua.onufreiv.inheritance.house.KeyGenerator;
  * @author Yurii Onufreiv
  */
 public interface ILockable {
-    KeyGenerator.Key lock();
-    boolean unlock(KeyGenerator.Key key);
+    KeyGenerator.Key lock(HouseBuilder.House house);
+    boolean unlock(HouseBuilder.House house, KeyGenerator.Key key);
     boolean isLocked();
 }

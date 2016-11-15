@@ -1,5 +1,6 @@
 package ua.onufreiv.inheritance.house.openings;
 
+import ua.onufreiv.inheritance.house.HouseBuilder;
 import ua.onufreiv.inheritance.house.KeyGenerator;
 
 import java.util.Objects;
@@ -36,28 +37,30 @@ public class LockableDoor extends Door implements ILockable {
     /**
      * Switches the door into 'locked' state if it's in 'unlocked' state
      * generates the key for unlocking and returns generated key
+     * @param house house, front door of which must be locked
      * @return generated {@code KeyGenerator.Key} object for further unlocking,
      *         or {@code null} value if the door is already in the 'locked' state
      */
     @Override
-    public KeyGenerator.Key lock() {
+    public KeyGenerator.Key lock(HouseBuilder.House house) {
         if (isLocked) {
             return null;
         }
         isLocked = true;
-        return KeyGenerator.generateForDoor(this);
+        return KeyGenerator.generateForDoor(house, this);
     }
 
     /**
      * Switches the door into 'unlocked' state if two conditions are satisfied:
      * <p/>1. it is in 'locked' state
      * <p/>2. passed key object is valid for this doors
+     * @param house house, front door of which must be unlocked
      * @param key key for unlocking the door
      * @return {@code true} if door where successfully unlocked, {@code false} otherwise
      */
     @Override
-    public boolean unlock(KeyGenerator.Key key) {
-        if (isLocked && key.isValidForDoor(this)) {
+    public boolean unlock(HouseBuilder.House house, KeyGenerator.Key key) {
+        if (isLocked && key.isValidForDoor(house, this)) {
             isLocked = false;
             return true;
         }

@@ -16,11 +16,12 @@ public class KeyGenerator {
 
     /**
      * Generates new Key object for the specified door
+     * @param house house, for entry door of which key will be generated
      * @param door door that should be locked
      * @return key for further door unlocking
      */
-    public static Key generateForDoor(Door door) {
-        return new Key(door);
+    public static Key generateForDoor(HouseBuilder.House house, Door door) {
+        return new Key(house, door);
     }
 
     /**
@@ -35,21 +36,23 @@ public class KeyGenerator {
          * Parametrized constructor; gets the value of {@code hashCode()} of
          * specified door
          * <p/>It's private for making it impossible to create key object manually
+         * @param house that hosts passed {@code door}
          * @param door key is created for this door
          */
-        private Key(Door door) {
-            this.doorHashCode = door.hashCode();
+        private Key(HouseBuilder.House house, Door door) {
+            this.doorHashCode = house.hashCode() + door.hashCode();
         }
 
         /**
-         * Checks if the key could interact (lock/unlock) with the specified door.
-         * Compares the value in the {@code doorHashCode} field with the
-         * {@code door.hashCode()} value
+         * Checks if the key could interact (lock/unlock) with the
+         * specified door. Compares the value in the {@code doorHashCode}
+         * field with the {@code door.hashCode()} value
+         * @param house that hosts passed {@code door}
          * @param door door for the key validation
          * @return true if key is valid to the specified door, false otherwise
          */
-        public boolean isValidForDoor(Door door) {
-            return doorHashCode == door.hashCode();
+        public boolean isValidForDoor(HouseBuilder.House house, Door door) {
+            return doorHashCode == house.hashCode() + door.hashCode();
         }
 
         /**
