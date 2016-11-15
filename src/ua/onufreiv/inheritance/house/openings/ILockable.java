@@ -3,7 +3,11 @@ package ua.onufreiv.inheritance.house.openings;
 import ua.onufreiv.inheritance.house.KeyGenerator;
 
 /**
- * Created by yurii on 11/14/16.
+ * This interface represents mechanism for locking some objects
+ * (with the help of {@code KeyGenerator.Key} class)
+ *
+ * @version 1.0
+ * @author Yurii Onufreiv
  */
 public interface ILockable {
     KeyGenerator.Key lock();

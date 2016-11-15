@@ -3,7 +3,6 @@ package ua.onufreiv.inheritance;
 import ua.onufreiv.inheritance.house.HouseBuilder;
 import ua.onufreiv.inheritance.house.KeyGenerator;
 import ua.onufreiv.inheritance.house.Room;
-import ua.onufreiv.inheritance.house.openings.OpenedWindowException;
 
 /**
  * Created by yurii on 11/13/16.
@@ -26,27 +25,14 @@ public class Runner {
 
         KeyGenerator.Key key1 = null;
         KeyGenerator.Key key2 = null;
-        try {
-            key2 = house2.lockWithKey();
+        key2 = house2.lockWithKey();
 
-            Room room = house1.getRooms().get(0);
-            room.openWindow();
-            room.openWindow();
+        Room room = house1.getRooms().get(0);
+        room.openWindow();
+        room.openWindow();
 
-            try {
-                key1 = house1.lockWithKey();
-            } catch (OpenedWindowException ex) {
-                System.out.println("Warning!!! " + ex.getMessage());
-                while(room.hasOpenedWindow()) {
-                    room.closeWindow();
-                }
-                key1 = house1.lockWithKey();
-            }
+        key1 = house1.lockWithKey();
 
-
-        } catch (OpenedWindowException e) {
-            e.printStackTrace();
-        }
 
         System.out.println("Entry door is locked: " + house1.isEntryDoorLocked());
         house1.unlockWithKey(key2);
