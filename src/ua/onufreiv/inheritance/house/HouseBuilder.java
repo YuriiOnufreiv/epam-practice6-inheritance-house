@@ -10,33 +10,42 @@ import java.util.Objects;
  * This is some kind of factory class for creating houses
  * <p/> Has {@link House} inner class in it.
  *
- * @version 1.0
  * @author Yurii Onufreiv
+ * @version 1.0
  */
 public class HouseBuilder {
 
     /**
-     * This class represents house containing it's address, amount of floors,
+     * This class represents house containing it's address, amount of roomsAmount,
      * entry door and rooms objects
      */
     public class House {
-        /** Physical address of the house */
+        /**
+         * Physical address of the house
+         */
         private String address;
-        /** Amount of floors in the house */
-        private int floors;
-        /** It's fron door */
+        /**
+         * Amount of roomsAmount in the house
+         */
+        private int roomsAmount;
+        /**
+         * It's front door
+         */
         private LockableDoor entryDoor;
-        /** Rooms in the house */
+        /**
+         * Rooms in the house
+         */
         private ArrayList<Room> rooms;
 
         /**
          * Parametrized constructor; initializes fields with specified values
-         * @param address address of house
-         * @param floors amount of floors in the house
+         *
+         * @param address     address of house
+         * @param roomsAmount amount of roomsAmount in the house
          */
-        private House(String address, int floors) {
+        private House(String address, int roomsAmount) {
             this.address = address;
-            this.floors = floors;
+            this.roomsAmount = roomsAmount;
             entryDoor = new LockableDoor();
             rooms = new ArrayList<>();
         }
@@ -44,9 +53,14 @@ public class HouseBuilder {
         /**
          * Adds room to the house. It's private to prevent adding of rooms directly
          * without the {@code HouseBuilder} class instance
+         *
          * @param room
          */
         private void addRoom(Room room) {
+            if (rooms.size() == roomsAmount) {
+                System.out.println("Unable to add new room...");
+                return;
+            }
             rooms.add(room);
         }
 
@@ -54,6 +68,7 @@ public class HouseBuilder {
          * Switches the entry door into 'locked' state if it's in 'unlocked' one.
          * Returns the generated the key for the door.
          * <p/> Prints warning message to the console in case there some window in the opened state
+         *
          * @return key object if the door locking was successful; null if it is already locked
          */
         public KeyGenerator.Key lockWithKey() {
@@ -63,7 +78,7 @@ public class HouseBuilder {
 
             for (Room room : rooms) {
                 if (room.hasOpenedWindow()) {
-                    System.out.printf("WARNING!!! There is opened window in the %s room%n", room.toString());
+                    System.out.printf("WARNING!!! There is opened window in the %s%n", room.toString());
                 }
             }
 
@@ -75,6 +90,7 @@ public class HouseBuilder {
          * Switches the door into 'unlocked' state if two conditions are satisfied:
          * <p/>1. it is in 'locked' state
          * <p/>2. passed key object is valid for this doors
+         *
          * @param key key for unlocking the door
          * @return {@code true} if door where successfully unlocked, {@code false} otherwise
          */
@@ -84,6 +100,7 @@ public class HouseBuilder {
 
         /**
          * Indicates whether the door in sin the 'locked' state
+         *
          * @return true if the door is locked, false otherwise
          */
         public boolean isEntryDoorLocked() {
@@ -92,6 +109,7 @@ public class HouseBuilder {
 
         /**
          * Returns amount of windows in the house
+         *
          * @return amount of windows
          */
         public int getAmountOfWindows() {
@@ -104,6 +122,7 @@ public class HouseBuilder {
 
         /**
          * Returns amount of doors in the house
+         *
          * @return amount of doors
          */
         public int getAmountOfDoors() {
@@ -112,6 +131,7 @@ public class HouseBuilder {
 
         /**
          * Returns {@code ArrayList} of {@code rooms} in the house
+         *
          * @return list of rooms
          */
         public ArrayList<Room> getRooms() {
@@ -122,9 +142,9 @@ public class HouseBuilder {
          * Compares this object to the specified object.  The result if {@code true}
          * if and only if the values of {@code address} fields are equals
          *
-         * @param   otherObject the object to compare with.
-         * @return  {@code true} if the objects are the same;
-         *          {@code false} otherwise.
+         * @param otherObject the object to compare with.
+         * @return {@code true} if the objects are the same;
+         * {@code false} otherwise.
          */
         @Override
         public boolean equals(Object otherObject) {
@@ -143,7 +163,7 @@ public class HouseBuilder {
          * Returns a hash code for this {@code House}.
          * <p/>Based on {@code address} hash value
          *
-         * @return  a hash code value for this object
+         * @return a hash code value for this object
          */
         @Override
         public int hashCode() {
@@ -152,29 +172,31 @@ public class HouseBuilder {
 
         /**
          * Returns a {@code String} object representing this {@code House}'s value.
-         * Includes it's class name, {@code address}, {@code floors}, {@code entryDoor}
+         * Includes it's class name, {@code address}, {@code roomsAmount}, {@code entryDoor}
          * and {@code rooms.size()} values.
          *
-         * @return  a string representation of the value of this object
+         * @return a string representation of the value of this object
          */
         @Override
         public String toString() {
-            return getClass().getName() +
+            return "House: " +
                     "[address='" + address + '\'' +
-                    ", floors=" + floors +
-                    ", entryDoor=" + entryDoor +
                     ", roomsAmount=" + rooms.size() +
+                    ", entryDoorLocked=" + isEntryDoorLocked()+
                     ']';
         }
     }
 
-    /** House for performing building operations */
+    /**
+     * House for performing building operations
+     */
     private House house;
 
     /**
      * Parametrized constructor; initializes fields with specified values
+     *
      * @param address address of house
-     * @param floors amount of floors in the house
+     * @param floors  amount of roomsAmount in the house
      */
     public HouseBuilder(String address, int floors) {
         this.house = new House(address, floors);
@@ -182,6 +204,7 @@ public class HouseBuilder {
 
     /**
      * Returns built house
+     *
      * @return house that was built
      */
     public House getHouse() {
@@ -190,9 +213,10 @@ public class HouseBuilder {
 
     /**
      * Adds room the building house
-     * @param type type of room
+     *
+     * @param type         type of room
      * @param windowsCount amount of windows in the room
-     * @param square square of the room
+     * @param square       square of the room
      */
     public void addRoom(Room.RoomType type, int windowsCount, double square) {
         Window[] windows = new Window[windowsCount];
@@ -206,9 +230,9 @@ public class HouseBuilder {
      * Compares this object to the specified object.  The result if {@code true}
      * if and only if the values of {@code house} fields are equals
      *
-     * @param   otherObject the object to compare with.
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
+     * @param otherObject the object to compare with.
+     * @return {@code true} if the objects are the same;
+     * {@code false} otherwise.
      */
     @Override
     public boolean equals(Object otherObject) {
@@ -227,7 +251,7 @@ public class HouseBuilder {
      * Returns a hash code for this {@code HouseBuilder}.
      * <p/>Based on {@code house} hash value
      *
-     * @return  a hash code value for this object
+     * @return a hash code value for this object
      */
     @Override
     public int hashCode() {
@@ -238,13 +262,12 @@ public class HouseBuilder {
      * Returns a {@code String} object representing this {@code HouseBuilder}'s value.
      * Includes it's class name nd {@code house} value.
      *
-     * @return  a string representation of the value of this object
+     * @return a string representation of the value of this object
      */
     @Override
     public String toString() {
-        return getClass().getName() +
-                "[house=" + house +
-                ']';
+        return "HouseBuilder for House: " +
+                house;
     }
 
 }

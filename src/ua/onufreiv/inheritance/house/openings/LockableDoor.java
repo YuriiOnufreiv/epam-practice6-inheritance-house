@@ -99,7 +99,7 @@ public class LockableDoor extends Door implements ILockable {
      */
     @Override
     public int hashCode() {
-        return super.hashCode() + Objects.hashCode(isLocked);
+        return Objects.hash(super.hashCode(), isLocked);
     }
 
     /**
@@ -110,6 +110,6 @@ public class LockableDoor extends Door implements ILockable {
      */
     @Override
     public String toString() {
-        return super.toString() + "[isLocked=" + isLocked + "]";
+        return "Lockable Door: locked=" + "[" + isLocked + "]" + super.toString();
     }
 }

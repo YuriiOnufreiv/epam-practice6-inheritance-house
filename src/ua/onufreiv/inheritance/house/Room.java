@@ -170,10 +170,10 @@ public class Room {
      */
     @Override
     public String toString() {
-        return getClass().getName() +
+        return "Room: " +
                 "[type=" + type +
                 ", square=" + square +
-                ", door=" + door +
+                ", doorIsOpened=" + door.isOpened() +
                 ", windowsAmount=" + windows.length +
                 ']';
     }

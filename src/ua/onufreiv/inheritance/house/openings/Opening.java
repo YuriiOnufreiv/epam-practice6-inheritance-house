@@ -132,7 +132,7 @@ public abstract class Opening {
      */
     @Override
     public String toString() {
-        return getClass().getName() +
+        return "Opening" +
                 "[material=" + material +
                 ", color=" + color +
                 ", isOpened=" + isOpened +

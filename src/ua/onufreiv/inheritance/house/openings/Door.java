@@ -76,7 +76,7 @@ public class Door extends Opening {
      */
     @Override
     public int hashCode() {
-        return super.hashCode() + getType().hashCode();
+        return Objects.hash(super.hashCode(), getType());
     }
 
     /**
@@ -87,6 +87,6 @@ public class Door extends Opening {
      */
     @Override
     public String toString() {
-        return super.toString() + "[type=" + getType() + "]";
+        return "Door: " + super.toString();
     }
 }
